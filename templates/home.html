@@ -1,0 +1,22 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='index.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="template">
+    <h1>User Information</h1>
+    <div>First Name: {{ firstname }}</div>
+    <div>Last Name: {{ lastname }}</div>
+    <div>Email: {{ email }}</div>
+  <a href="{{ url_for('logout') }}">Log Out</a>
+</div>  
+</div>   
+{% endblock %}
