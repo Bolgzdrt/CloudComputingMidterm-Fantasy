@@ -70,8 +70,6 @@ class LoginForm(FlaskForm):
   remember = BooleanField('remember me')
 
 class RegisterForm(FlaskForm):
-  fname = StringField('First Name', validators=[InputRequired(), Length(max=80)])
-  lname = StringField('Last Name', validators=[InputRequired(), Length(max=80)])
   email = StringField('Email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
   username = StringField('Username', validators=[InputRequired(), Length(min=4, max=15)])
   password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=80)])
@@ -102,18 +100,23 @@ def signup():
 
   if form.validate_on_submit():
     hashed_pass = generate_password_hash(form.password.data, method='sha256')
-    new_user = User(fname=form.fname.data, lname=form.lname.data, username=form.username.data, email=form.email.data, password=hashed_pass)
+    new_user = User(username=form.username.data, email=form.email.data, password=hashed_pass)
     db.session.add(new_user)
     db.session.commit()
     login_user(new_user)
-    return redirect(url_for('home'))
+    return redirect(url_for('buildroster'))
 
   return render_template('signup.html', form=form)
 
 @app.route('/home')
 @login_required
 def home():
-  return render_template('home.html', firstname=current_user.fname, lastname=current_user.lname, email=current_user.email)
+  return render_template('home.html', username=current_user.username)
+
+@app.route('/buildroster')
+@login_required
+def buildroster():
+  return render_template('buildRoster.html')
 
 @app.route('/logout')
 @login_required
