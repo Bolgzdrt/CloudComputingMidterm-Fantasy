@@ -10,6 +10,11 @@ body {
   background-color: #eee;
   border: 2px solid black;
 }
+
+.form-signin-heading {
+  margin-bottom: 2rem !important;
+}
+
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
   margin-bottom: 10px;
