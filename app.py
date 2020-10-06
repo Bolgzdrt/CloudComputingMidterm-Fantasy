@@ -111,7 +111,7 @@ def signup():
 @app.route('/home')
 @login_required
 def home():
-  return render_template('home.html', firstname=current_user.fname, lastname=current_user.lname, email=current_user.email)
+  return render_template('home.html', username=current_user.username)
 
 @app.route('/buildroster')
 @login_required
