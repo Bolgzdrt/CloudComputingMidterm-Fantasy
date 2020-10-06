@@ -21,8 +21,44 @@ class User(UserMixin, db.Model):
   username = db.Column(db.String(15), unique=True)
   email = db.Column(db.String(50), unique=True)
   password = db.Column(db.String(80))
-  fname = db.Column(db.String(80))
-  lname = db.Column(db.String(80))
+  RosterID = db.Column(db.Integer)
+
+class Roster(UserMixin, db.Model):
+  RosterID = db.Column(db.Integer, primary_key=True)
+  QB = db.Column(db.Integer)
+  WR1 = db.Column(db.Integer)
+  WR2 = db.Column(db.Integer)
+  RB1 = db.Column(db.Integer)
+  RB2 = db.Column(db.Integer)
+  TE = db.Column(db.Integer)
+
+class Team(UserMixin, db.Model):
+  TeamID = db.Column(db.Integer, primary_key=True)
+  TeamName = db.Column(db.String(80))
+  Game1 = db.Column(db.Integer)
+  Game2 = db.Column(db.Integer)
+  Game3 = db.Column(db.Integer)
+  Game4 = db.Column(db.Integer)
+  Game5 = db.Column(db.Integer)
+  Game6 = db.Column(db.Integer)
+  Game7 = db.Column(db.Integer)
+  Game8 = db.Column(db.Integer)
+  Game9 = db.Column(db.Integer)
+  Game10 = db.Column(db.Integer)
+  Game11 = db.Column(db.Integer)
+  Game12 = db.Column(db.Integer)
+  Game13 = db.Column(db.Integer)
+  Game14 = db.Column(db.Integer)
+  Game15 = db.Column(db.Integer)
+  Game16 = db.Column(db.Integer)
+
+class Players(UserMixin, db.Model):
+  PlayerID = db.Column(db.Integer, primary_key=True)
+  PlayerFname = db.Column(db.String(80))
+  PlayerLname = db.Column(db.String(80))
+  TeamID = db.Column(db.Integer)
+  Position = db.Column(db.String(2))
+  TotalYardage = db.Column(db.Integer)
 
 @login_manager.user_loader
 def load_user(user_id):
