@@ -70,8 +70,10 @@ class LoginForm(FlaskForm):
   remember = BooleanField('remember me')
 
 class RegisterForm(FlaskForm):
+  fname = StringField('First Name', validators=[InputRequired(), Length(max=80)])
+  lname = StringField('Last Name', validators=[InputRequired(), Length(max=80)])
   email = StringField('Email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
-  username = StringField('Username', validators=[InputRequired(), Length(min=4, max=25)])
+  username = StringField('Username', validators=[InputRequired(), Length(min=4, max=15)])
   password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=80)])
 
 
@@ -82,12 +84,13 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
   form = LoginForm()
-
+  
   if form.validate_on_submit():
     user = User.query.filter_by(username=form.username.data).first()
-    if user and check_password_hash(user.password, form.password.data):
-      login_user(user, remember=form.remember.data)
-      return redirect(url_for('home'))
+    if user:
+      if check_password_hash(user.password, form.password.data):
+        login_user(user, remember=form.remember.data)
+        return redirect(url_for('home'))
 
     return '<h1>Invalid username or password</h1>'
 
@@ -99,11 +102,11 @@ def signup():
 
   if form.validate_on_submit():
     hashed_pass = generate_password_hash(form.password.data, method='sha256')
-    new_user = User(username=form.username.data, email=form.email.data, password=hashed_pass)
+    new_user = User(fname=form.fname.data, lname=form.lname.data, username=form.username.data, email=form.email.data, password=hashed_pass)
     db.session.add(new_user)
     db.session.commit()
     login_user(new_user)
-    return redirect(url_for('buildteam'))
+    return redirect(url_for('home'))
 
   return render_template('signup.html', form=form)
 
@@ -111,11 +114,6 @@ def signup():
 @login_required
 def home():
   return render_template('home.html', firstname=current_user.fname, lastname=current_user.lname, email=current_user.email)
-
-@app.route('/buildteam')
-@login_required
-def buildTeam():
-  return render_template('buildTeam.html')
 
 @app.route('/logout')
 @login_required
