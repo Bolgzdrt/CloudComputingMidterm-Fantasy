@@ -1,0 +1,50 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='index.css')}}">
+{% endblock %}
+
+{% block nav %}
+{% endblock nav %}
+
+{% block content %}
+<nav>
+  <ul>
+    <li><a href="#">League</a></li>
+    <li><a href="{{ url_for('home') }}">My Roster</a></li>
+    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+  </ul>
+</nav>
+<div class="container">
+  <div class="template">
+    {% for r in roster %}
+      <div class="tableContainer">
+        <h1 class="leagueTitle">{{ r.owner }}'s Roster</h1>
+        <table class="leagueTable">
+          <tr>
+            <th>QB</th>
+            <th>WR</th>
+            <th>WR</th>
+            <th>RB</th>
+            <th>RB</th>
+            <th>TE</th>
+          </tr>
+          <tr>
+            <td>{{ r.names['QB'] }}</td>
+            <td>{{ r.names['WR1'] }}</td>
+            <td>{{ r.names['WR2'] }}</td>
+            <td>{{ r.names['RB1'] }}</td>
+            <td>{{ r.names['RB2'] }}</td>
+            <td>{{ r.names['TE'] }}</td>
+          </tr>
+        </table>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

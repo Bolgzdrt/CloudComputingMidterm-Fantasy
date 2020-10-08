@@ -7,7 +7,7 @@ from wtforms.validators import InputRequired, Email, Length
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from utils import getPlayerNames
+from utils import getPlayerNames, getRosterPlayers
 from random import randrange
 
 app = Flask(__name__)
@@ -121,8 +121,16 @@ def home():
 @app.route('/buildroster')
 @login_required
 def buildroster():
+  #WIP
   qbs = Players.query.filter_by(Position='QB')
   return render_template('buildRoster.html', qbs=qbs)
+
+@app.route('/league')
+@login_required
+def viewLeague():
+  rosters = Roster.query.with_entities(Roster.QB, Roster.WR1, Roster.WR2, Roster.RB1, Roster.RB2, Roster.TE, Roster.RosterID)
+  players = getRosterPlayers(Players, User, rosters)
+  return render_template('league.html', roster=players)
 
 @app.route('/logout')
 @login_required

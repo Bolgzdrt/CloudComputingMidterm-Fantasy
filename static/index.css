@@ -7,7 +7,7 @@
   margin: 0 auto;
   border: 2px solid black;
   background-color: #eee;
-  border-radius: 00.2em;
+  border-radius: 0.2em;
   margin-top: 40px;
 }
 
@@ -48,6 +48,8 @@ a:hover {
 
 table {
   margin: 3rem 0;
+  width: 100%;
+  text-align: center;
 }
 
 table th {
@@ -56,6 +58,7 @@ table th {
 
 table td, th {
   padding: 0.25em;
+  font-size: 1.5rem;
 }
 
 nav {
@@ -80,4 +83,28 @@ nav ul li:not(:last-of-type) {
 
 nav ul li a {
   margin: 0;
+}
+
+.leagueTitle {
+  font-size: 2.5rem;
+  margin-top: 2rem;
+}
+
+.tableContainer {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.tableContainer:not(:last-of-type) {
+  border-bottom: 2px solid #000;
+}
+
+.leagueTable {
+  margin-top: 1.5rem;
 }
