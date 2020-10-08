@@ -127,7 +127,7 @@ def buildroster():
 
 @app.route('/league')
 @login_required
-def viewLeague():
+def league():
   rosters = Roster.query.with_entities(Roster.QB, Roster.WR1, Roster.WR2, Roster.RB1, Roster.RB2, Roster.TE, Roster.RosterID)
   players = getRosterPlayers(Players, User, rosters)
   return render_template('league.html', roster=players)
