@@ -9,7 +9,17 @@ Home
 <link rel="stylesheet" href="{{url_for('.static', filename='index.css')}}">
 {% endblock %}
 
+{% block nav %}
+{% endblock nav %}
+
 {% block content %}
+<nav>
+  <ul>
+    <li><a href="#">League</a></li>
+    <li><a href="{{ url_for('home') }}">My Roster</a></li>
+    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+  </ul>
+</nav>
 <div class="container">
   <div class="template">
     <h1 id="usernameTitle">{{username}}'s Roster</h1>
