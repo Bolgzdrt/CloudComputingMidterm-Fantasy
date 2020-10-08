@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for
+from flask.globals import request
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
@@ -85,10 +86,9 @@ def login():
   
   if form.validate_on_submit():
     user = User.query.filter_by(username=form.username.data).first()
-    if user:
-      if check_password_hash(user.password, form.password.data):
-        login_user(user, remember=form.remember.data)
-        return redirect(url_for('home'))
+    if user and check_password_hash(user.password, form.password.data):
+      login_user(user, remember=form.remember.data)
+      return redirect(url_for('home'))
 
     return '<h1>Invalid username or password</h1>'
 
@@ -111,12 +111,13 @@ def signup():
 @app.route('/home')
 @login_required
 def home():
-  return render_template('home.html', username=current_user.username)
+  return render_template('home.html', username=current_user.username, email=current_user.email)
 
 @app.route('/buildroster')
 @login_required
 def buildroster():
-  return render_template('buildRoster.html')
+  qbs = Players.query.filter_by(Position='QB')
+  return render_template('buildRoster.html', qbs=qbs)
 
 @app.route('/logout')
 @login_required

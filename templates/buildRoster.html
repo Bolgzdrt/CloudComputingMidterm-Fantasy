@@ -13,6 +13,14 @@ BuildRoster
 <div class="container">
   <div class="template">
     <h1>Build Roster</h1>
+    <div style="display: inline-block;">
+      <label for="qbSelect">QB</label>
+      <select name="qbSelect">
+        {% for qb in qbs %}
+        <option value="{{ qb.PlayerID }}">{{ qb.PlayerFname }} {{ qb.PlayerLname }}</option>
+        {% endfor %}
+      </select>
+    </div>
     <a href="{{ url_for('logout') }}">Log Out</a>
     <a href="{{ url_for('home') }}">Home Page</a>
   </div>
