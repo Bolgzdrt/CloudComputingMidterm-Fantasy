@@ -1,13 +1,13 @@
 .template {
   padding: 20px 15px;
   text-align: center;
-  font-family:'Roboto',sans-serif;
-  max-width: 400px;
+  font-family: 'Roboto', sans-serif;
+  max-width: 80vw;
   padding: 15px;
   margin: 0 auto;
   border: 2px solid black;
   background-color: #eee;
-  border-radius: 00.20em;
+  border-radius: 00.2em;
   margin-top: 40px;
 }
 
@@ -16,24 +16,44 @@
   font-size: 24px;
 }
 
-a{
-  display:inline-block;
-  padding:0.35em 1.2em;
-  border:0.1em solid black;
-  margin:1em 0.3em 0.3em 0;
-  border-radius:0.20em;
+h1#usernameTitle {
+  margin: 20px 0;
+}
+
+a {
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid black;
+  margin: 1em 0.3em 0.3em 0;
+  border-radius: 0.2em;
   box-sizing: border-box;
-  text-decoration:none;
-  font-weight:300;
-  color:black;
-  text-align:center;
+  text-decoration: none;
+  font-weight: 300;
+  color: black;
+  text-align: center;
   transition: all 0.2s;
   font-size: large;
   width: 100%;
   background-color: white;
 }
 
-a:hover{
-  color:#000000;
+a:hover {
+  color: #000000;
   background-color: rgb(184, 197, 255);
+}
+
+#logoutBtn {
+  max-width: 200px;
+}
+
+table {
+  margin: 3rem 0;
+}
+
+table th {
+  text-align: center;
+}
+
+table td, th {
+  padding: 0.25em;
 }

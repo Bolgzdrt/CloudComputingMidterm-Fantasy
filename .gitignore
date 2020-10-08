@@ -1,3 +1,4 @@
 __pycache__/
 .vscode/
 setupEnv.sh
+backupdatabase.db

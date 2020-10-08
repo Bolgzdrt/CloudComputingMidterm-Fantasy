@@ -7,6 +7,8 @@ from wtforms.validators import InputRequired, Email, Length
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from utils import getPlayerNames
+from random import randrange
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secrettunnel'
@@ -100,7 +102,8 @@ def signup():
 
   if form.validate_on_submit():
     hashed_pass = generate_password_hash(form.password.data, method='sha256')
-    new_user = User(username=form.username.data, email=form.email.data, password=hashed_pass)
+    user_id = randrange(1000000, 9999999)
+    new_user = User(username=form.username.data, email=form.email.data, password=hashed_pass, id=user_id)
     db.session.add(new_user)
     db.session.commit()
     login_user(new_user)
@@ -111,7 +114,9 @@ def signup():
 @app.route('/home')
 @login_required
 def home():
-  return render_template('home.html', username=current_user.username, email=current_user.email)
+  roster = Roster.query.filter_by(RosterID=current_user.RosterID).first()
+  names = getPlayerNames(Players, roster)
+  return render_template('home.html', username=current_user.username, roster=roster, names=names)
 
 @app.route('/buildroster')
 @login_required
