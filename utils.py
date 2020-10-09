@@ -1,4 +1,5 @@
 positionsConst = ['QB', 'WR1', 'WR2', 'RB1', 'RB2', 'TE']
+gameConst = ['Game1', 'Game2', 'Game3', 'Game4', 'Game5', 'Game6', 'Game7', 'Game8', 'Game9', 'Game10', 'Game11', 'Game12', 'Game13', 'Game14', 'Game15', 'Game16']
 
 def getPlayerName(Players, player_id):
   name = Players.query.filter_by(PlayerID=player_id).first()
@@ -42,3 +43,38 @@ def getRosterPlayers(Players, User, rosters):
       obj['names'][pos] = f'{name.PlayerFname} {name.PlayerLname}'
     players.append(obj)
   return players
+
+def getPlayerStats(roster, Players):
+  player_ids = [roster.QB, roster.WR1, roster.WR2, roster.RB1, roster.RB2, roster.TE]
+  stats = {
+    'QB': '',
+    'WR1': '',
+    'WR2': '',
+    'RB1': '',
+    'RB2': '',
+    'TE': ''
+  }
+  for pid, pos in zip(player_ids, positionsConst):
+    stat = Players.query.filter_by(PlayerID=pid).first()
+    stats[pos] = f'{stat.TotalYardage}'
+
+  return stats
+
+def getPlayerScores(roster, Team, Players):
+  player_ids = [roster.QB, roster.WR1, roster.WR2, roster.RB1, roster.RB2, roster.TE]
+  player_teams = []
+  for p in player_ids:
+    player_teams.append(Players.query.filter_by(PlayerID=p).first().TeamID)
+
+  scores = {
+    'QB': '',
+    'WR1': '',
+    'WR2': '',
+    'RB1': '',
+    'RB2': '',
+    'TE': ''
+  }
+  for tid, pos in zip(player_teams, positionsConst):
+    scores[pos] = Team.query.filter_by(TeamID=tid).first().Game1 + Team.query.filter_by(TeamID=tid).first().Game2 + Team.query.filter_by(TeamID=tid).first().Game3 + Team.query.filter_by(TeamID=tid).first().Game4 +  Team.query.filter_by(TeamID=tid).first().Game5 +  Team.query.filter_by(TeamID=tid).first().Game6 +  Team.query.filter_by(TeamID=tid).first().Game7 +  Team.query.filter_by(TeamID=tid).first().Game8 +  Team.query.filter_by(TeamID=tid).first().Game9 +  Team.query.filter_by(TeamID=tid).first().Game10 + Team.query.filter_by(TeamID=tid).first().Game11 + Team.query.filter_by(TeamID=tid).first().Game12 + Team.query.filter_by(TeamID=tid).first().Game13 + Team.query.filter_by(TeamID=tid).first().Game14 + Team.query.filter_by(TeamID=tid).first().Game15 + Team.query.filter_by(TeamID=tid).first().Game16
+
+  return scores

@@ -25,20 +25,46 @@ Home
     <h1 id="usernameTitle">{{username}}'s Roster</h1>
     <table style="width:100%; text-align: center;">
       <tr>
-        <th>QB</th>
-        <th>WR</th>
-        <th>WR</th>
-        <th>RB</th>
-        <th>RB</th>
-        <th>TE</th>
+        <th>Position</th>
+        <th>Name</th>
+        <th>Yardage</th>
+        <th>Cumulative Score</th>
       </tr>
       <tr>
+        <td>QB</td>
         <td>{{ names['QB'] }}</td>
+        <td>{{ player_stats['QB'] }}</td>
+        <td>{{ player_scores['QB'] }}</td>
+      </tr>
+      <tr>
+        <td>WR1</td>
         <td>{{ names['WR1'] }}</td>
+        <td>{{ player_stats['WR1'] }}</td>
+        <td>{{ player_scores['WR1'] }}</td>
+      </tr>
+      <tr>
+        <td>WR2</td>
         <td>{{ names['WR2'] }}</td>
+        <td>{{ player_stats['WR2'] }}</td>
+        <td>{{ player_scores['WR2'] }}</td>
+      </tr>
+      <tr>
+        <td>RB1</td>
         <td>{{ names['RB1'] }}</td>
+        <td>{{ player_stats['RB1'] }}</td>
+        <td>{{ player_scores['RB1'] }}</td>
+      </tr>
+      <tr>
+        <td>RB2</td>
         <td>{{ names['RB2'] }}</td>
+        <td>{{ player_stats['RB2'] }}</td>
+        <td>{{ player_scores['RB2'] }}</td>
+      </tr>
+      <tr>
+        <td>TE</td>
         <td>{{ names['TE'] }}</td>
+        <td>{{ player_stats['TE'] }}</td>
+        <td>{{ player_scores['TE'] }}</td>
       </tr>
     </table>
   </div>
