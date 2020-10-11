@@ -119,7 +119,6 @@ def home():
   names = getPlayerNames(Players, roster)
   player_stats = getPlayerStats(roster, Players)
   player_scores = getPlayerScores(roster, Team, Players)
-  print(player_scores)
   total_score = reduce(lambda acc, curr: acc + player_scores[curr], player_scores, 0)
   return render_template('home.html', username=current_user.username, roster=roster, names=names, player_stats=player_stats, player_scores=player_scores, total_score=total_score)
 
