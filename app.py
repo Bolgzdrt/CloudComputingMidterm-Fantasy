@@ -140,12 +140,12 @@ def buildroster():
   wrs = Players.query.filter_by(Position='WR')
   tes = Players.query.filter_by(Position='TE')
 
-  form.qb.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname)) for player in qbs]
-  form.rb1.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname)) for player in rbs]
-  form.rb2.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname)) for player in rbs]
-  form.wr1.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname)) for player in wrs]
-  form.wr2.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname)) for player in wrs]
-  form.te.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname)) for player in tes]
+  form.qb.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname + f" - {player.TotalYardage} yards")) for player in qbs]
+  form.rb1.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname + f" - {player.TotalYardage} yards")) for player in rbs]
+  form.rb2.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname + f" - {player.TotalYardage} yards")) for player in rbs]
+  form.wr1.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname + f" - {player.TotalYardage} yards")) for player in wrs]
+  form.wr2.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname + f" - {player.TotalYardage} yards")) for player in wrs]
+  form.te.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname + f" - {player.TotalYardage} yards")) for player in tes]
 
   if form.validate_on_submit():
     if (form.rb1.data == form.rb2.data) or (form.wr1.data == form.wr2.data):
