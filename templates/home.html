@@ -75,33 +75,36 @@ Home
   let yardsSorted = 0;
   let yardages = []
   for (let p of ['QB', 'WR1', 'WR2', 'RB1', 'RB2', 'TE']) {
-    yardages.push(parseInt(document.querySelector(`#${p}Yards`).innerText))
+    yardages.push({
+      row: document.querySelector(`#${p}Row`),
+      yards: parseInt(document.querySelector(`#${p}Yards`).innerText)
+    })
   }
-  console.log(yardages)
+  // console.log(yardages)
   yardagesDisplay = []
   let yardagesButton = document.querySelector('#yardagesBtn')
   yardagesButton.onclick = e => {
     switch(yardsSorted) {
       case 0:
         // Sort descending
-        yardagesDisplay = [...yardages].sort((a, b) => b - a)
-        console.log(yardagesDisplay)
+        yardagesDisplay = [...yardages].sort((a, b) => b.yards - a.yards)
         yardsSorted = 1
         yardagesButton.innerText = 'D'
+        buildDisplay(yardagesDisplay)
         break;
       case 1:
         // Sort ascending
-        yardagesDisplay = [...yardages].sort((a, b) => a - b)
-        console.log(yardagesDisplay)
+        yardagesDisplay = [...yardages].sort((a, b) => a.yards - b.yards)
         yardsSorted = 2
         yardagesButton.innerText = 'A'
+        buildDisplay(yardagesDisplay)
         break;
       case 2:
         // Revert to normal
         yardagesDisplay = [...yardages]
-        console.log(yardagesDisplay)
         yardsSorted = 0
         yardagesButton.innerText = '-'
+        buildDisplay(yardagesDisplay)
         break;
       default:
         yardagesDisplay = [...yardages]
@@ -113,14 +116,11 @@ Home
 
   const buildDisplay = (order) => {
     let rosterTable = document.getElementById('rosterTable')
-    let qbRow = document.getElementById('QBRow')
-    let wr1Row = document.getElementById('WR1Row')
-    let wr2Row = document.getElementById('WR2Row')
-    let rb1Row = document.getElementById('RB1Row')
-    let rb2Row = document.getElementById('RB2Row')
-    let teRow = document.getElementById('TERow')
 
-    
+    rosterTable.deleteRow(1)
+    for(let o of order) {
+      rosterTable.appendChild(o.row)
+    }
   }
 </script>
 {% endblock %}
