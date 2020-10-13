@@ -114,7 +114,7 @@ Home
         yardagesDisplay = [...yardages]
         yardsSorted = 0
         yardagesButton.innerText = '-'
-        
+        buildDisplay(yardagesDisplay)
         break
       default:
         yardagesDisplay = [...yardages]
@@ -126,7 +126,6 @@ Home
   };
 
   const buildDisplay = (order) => {
-    console.log(order)
     let rosterTable = document.getElementById('rosterTable')
 
     rosterTable.deleteRow(1)
