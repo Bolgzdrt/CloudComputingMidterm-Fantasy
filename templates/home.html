@@ -24,50 +24,103 @@ Home
   <div class="template">
     <h1 id="usernameTitle">{{username}}'s Roster</h1>
     <p style="display: inline-block; font-size: 24px; margin: 0;">Total: {{ total_score }}</p>
-    <table style="width:100%; text-align: center;">
+    <table id="rosterTable" style="width:100%; text-align: center;">
       <tr>
         <th>Position</th>
         <th>Name</th>
-        <th>Yardage</th>
+        <th id="yardage">Yardage <button id="yardagesBtn">-</button></th>
         <th>Cumulative Score</th>
       </tr>
-      <tr>
+      <tr id="QBRow">
         <td>QB</td>
         <td>{{ names['QB'] }}</td>
-        <td>{{ player_stats['QB'] }}</td>
+        <td id="QBYards">{{ player_stats['QB'] }}</td>
         <td>{{ player_scores['QB'] }}</td>
       </tr>
-      <tr>
+      <tr id="WR1Row">
         <td>WR1</td>
         <td>{{ names['WR1'] }}</td>
-        <td>{{ player_stats['WR1'] }}</td>
+        <td id="WR1Yards">{{ player_stats['WR1'] }}</td>
         <td>{{ player_scores['WR1'] }}</td>
       </tr>
-      <tr>
+      <tr id="WR2Row">
         <td>WR2</td>
         <td>{{ names['WR2'] }}</td>
-        <td>{{ player_stats['WR2'] }}</td>
+        <td id="WR2Yards">{{ player_stats['WR2'] }}</td>
         <td>{{ player_scores['WR2'] }}</td>
       </tr>
-      <tr>
+      <tr id="RB1Row">
         <td>RB1</td>
         <td>{{ names['RB1'] }}</td>
-        <td>{{ player_stats['RB1'] }}</td>
+        <td id="RB1Yards">{{ player_stats['RB1'] }}</td>
         <td>{{ player_scores['RB1'] }}</td>
       </tr>
-      <tr>
+      <tr id="RB2Row">
         <td>RB2</td>
         <td>{{ names['RB2'] }}</td>
-        <td>{{ player_stats['RB2'] }}</td>
+        <td id="RB2Yards">{{ player_stats['RB2'] }}</td>
         <td>{{ player_scores['RB2'] }}</td>
       </tr>
-      <tr>
+      <tr id="TERow">
         <td>TE</td>
         <td>{{ names['TE'] }}</td>
-        <td>{{ player_stats['TE'] }}</td>
+        <td id="TEYards">{{ player_stats['TE'] }}</td>
         <td>{{ player_scores['TE'] }}</td>
       </tr>
     </table>
   </div>
 </div>
+<script>
+  console.log('SCRIPT')
+  let yardsSorted = 0;
+  let yardages = []
+  for (let p of ['QB', 'WR1', 'WR2', 'RB1', 'RB2', 'TE']) {
+    yardages.push(parseInt(document.querySelector(`#${p}Yards`).innerText))
+  }
+  console.log(yardages)
+  yardagesDisplay = []
+  let yardagesButton = document.querySelector('#yardagesBtn')
+  yardagesButton.onclick = e => {
+    switch(yardsSorted) {
+      case 0:
+        // Sort descending
+        yardagesDisplay = [...yardages].sort((a, b) => b - a)
+        console.log(yardagesDisplay)
+        yardsSorted = 1
+        yardagesButton.innerText = 'D'
+        break;
+      case 1:
+        // Sort ascending
+        yardagesDisplay = [...yardages].sort((a, b) => a - b)
+        console.log(yardagesDisplay)
+        yardsSorted = 2
+        yardagesButton.innerText = 'A'
+        break;
+      case 2:
+        // Revert to normal
+        yardagesDisplay = [...yardages]
+        console.log(yardagesDisplay)
+        yardsSorted = 0
+        yardagesButton.innerText = '-'
+        break;
+      default:
+        yardagesDisplay = [...yardages]
+        yardsSorted = 0
+        yardagesButton.innerText = '-'
+        break;
+    }
+  };
+
+  const buildDisplay = (order) => {
+    let rosterTable = document.getElementById('rosterTable')
+    let qbRow = document.getElementById('QBRow')
+    let wr1Row = document.getElementById('WR1Row')
+    let wr2Row = document.getElementById('WR2Row')
+    let rb1Row = document.getElementById('RB1Row')
+    let rb2Row = document.getElementById('RB2Row')
+    let teRow = document.getElementById('TERow')
+
+    
+  }
+</script>
 {% endblock %}
