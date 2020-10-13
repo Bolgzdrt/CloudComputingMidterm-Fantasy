@@ -32,16 +32,6 @@ BuildRoster
       {{ wtf.form_field(form.te) }}
       <button type="submit">Submit</button>
     </form>
-
-    <!-- <div style="display: inline-block;">
-      <label for="qbSelect">QB</label>
-      <select name="qbSelect">
-        {% for qb in qbs %}
-        <option value="{{ qb.PlayerID }}">{{ qb.PlayerFname }} {{ qb.PlayerLname }}</option>
-        {% endfor %}
-      </select>
-    </div> -->
-    <a href="{{ url_for('logout') }}">Log Out</a>
   </div>
 </div>
 {% endblock %}
