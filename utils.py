@@ -71,15 +71,18 @@ def getPlayerScores(roster, Team, Players):
     player_teams.append(Players.query.filter_by(PlayerID=p).first().TeamID)
 
   scores = {
-    'QB': '',
-    'WR1': '',
-    'WR2': '',
-    'RB1': '',
-    'RB2': '',
-    'TE': ''
+    'QB': 0,
+    'WR1': 0,
+    'WR2': 0,
+    'RB1': 0,
+    'RB2': 0,
+    'TE': 0
   }
   for tid, pos in zip(player_teams, positionsConst):
-    scores[pos] = Team.query.filter_by(TeamID=tid).first().Game1 + Team.query.filter_by(TeamID=tid).first().Game2 + Team.query.filter_by(TeamID=tid).first().Game3 + Team.query.filter_by(TeamID=tid).first().Game4 +  Team.query.filter_by(TeamID=tid).first().Game5 +  Team.query.filter_by(TeamID=tid).first().Game6 +  Team.query.filter_by(TeamID=tid).first().Game7 +  Team.query.filter_by(TeamID=tid).first().Game8 +  Team.query.filter_by(TeamID=tid).first().Game9 +  Team.query.filter_by(TeamID=tid).first().Game10 + Team.query.filter_by(TeamID=tid).first().Game11 + Team.query.filter_by(TeamID=tid).first().Game12 + Team.query.filter_by(TeamID=tid).first().Game13 + Team.query.filter_by(TeamID=tid).first().Game14 + Team.query.filter_by(TeamID=tid).first().Game15 + Team.query.filter_by(TeamID=tid).first().Game16
+    team = Team.query.filter_by(TeamID=tid).first()
+    for w in range(1, 18):
+      scores[pos] += __getUserWeekByWeekScoreHelper(w, team)
+    # scores[pos] = Team.query.filter_by(TeamID=tid).first().Game1 + Team.query.filter_by(TeamID=tid).first().Game2 + Team.query.filter_by(TeamID=tid).first().Game3 + Team.query.filter_by(TeamID=tid).first().Game4 +  Team.query.filter_by(TeamID=tid).first().Game5 +  Team.query.filter_by(TeamID=tid).first().Game6 +  Team.query.filter_by(TeamID=tid).first().Game7 +  Team.query.filter_by(TeamID=tid).first().Game8 +  Team.query.filter_by(TeamID=tid).first().Game9 +  Team.query.filter_by(TeamID=tid).first().Game10 + Team.query.filter_by(TeamID=tid).first().Game11 + Team.query.filter_by(TeamID=tid).first().Game12 + Team.query.filter_by(TeamID=tid).first().Game13 + Team.query.filter_by(TeamID=tid).first().Game14 + Team.query.filter_by(TeamID=tid).first().Game15 + Team.query.filter_by(TeamID=tid).first().Game16
 
   return scores
 
@@ -90,15 +93,12 @@ def getUserWeekByWeekScore(roster, Players, Team, User):
     for p in roster[:-1]:
       player_data = Players.query.filter_by(PlayerID=p).first()
       team = Team.query.filter_by(TeamID=player_data.TeamID).first()
-      # if week == 17:
-      #   print(team.Game17)
       score[week-1] += __getUserWeekByWeekScoreHelper(week, team)
 
-  print(score)
   return {
     'owner': owner.username,
     'weekly_score': score,
-    'total': reduce(lambda acc, curr: acc + score[curr], score, 0)
+    'total': reduce(lambda acc, curr: acc + curr, score, 0)
   }
 
 # Doesn't let you index with f'Game{i}' so gotta do it the bad way...
