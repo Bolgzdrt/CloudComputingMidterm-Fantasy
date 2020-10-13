@@ -85,13 +85,16 @@ def getPlayerScores(roster, Team, Players):
 
 def getUserWeekByWeekScore(roster, Players, Team, User):
   owner = User.query.filter_by(RosterID = roster[-1]).first()
-  score = [0 for x in range(16)]
-  for week in range(1, 17):
+  score = [0 for x in range(17)]
+  for week in range(1, 18):
     for p in roster[:-1]:
       player_data = Players.query.filter_by(PlayerID=p).first()
       team = Team.query.filter_by(TeamID=player_data.TeamID).first()
+      # if week == 17:
+      #   print(team.Game17)
       score[week-1] += __getUserWeekByWeekScoreHelper(week, team)
 
+  print(score)
   return {
     'owner': owner.username,
     'weekly_score': score,
@@ -117,5 +120,6 @@ def __getUserWeekByWeekScoreHelper(week, team):
     14: team.Game14,
     15: team.Game15,
     16: team.Game16,
+    17: team.Game17
   }
   return options[week]

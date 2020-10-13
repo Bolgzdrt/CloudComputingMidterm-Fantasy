@@ -55,6 +55,7 @@ class Team(UserMixin, db.Model):
   Game14 = db.Column(db.Integer)
   Game15 = db.Column(db.Integer)
   Game16 = db.Column(db.Integer)
+  Game17 = db.Column(db.Integer)
 
 class Players(UserMixin, db.Model):
   PlayerID = db.Column(db.Integer, primary_key=True)
@@ -133,7 +134,6 @@ def buildroster():
 @login_required
 def league():
   rosters = Roster.query.with_entities(Roster.QB, Roster.WR1, Roster.WR2, Roster.RB1, Roster.RB2, Roster.TE, Roster.RosterID)
-  players = getRosterPlayers(Players, User, Team, rosters)
   league_weekly_scores = []
   for r in rosters:
     weekly_score = getUserWeekByWeekScore(r, Players, Team, User)
