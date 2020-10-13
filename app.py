@@ -86,6 +86,9 @@ class rosterForm(FlaskForm):
   wr1 = SelectField("WR1", coerce=int)
   wr2 = SelectField("WR2", coerce=int)
   te = SelectField("TE", coerce=int)
+  
+class SearchForm(FlaskForm):
+  searchName = StringField('Find Player...', validators=[InputRequired(), Length(max=80)])
 
 @app.route('/')
 def index():
@@ -120,15 +123,23 @@ def signup():
 
   return render_template('signup.html', form=form)
 
-@app.route('/home')
+@app.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
+  form = SearchForm()
+
   roster = Roster.query.filter_by(RosterID=current_user.RosterID).first()
   names = getPlayerNames(Players, roster)
   player_stats = getPlayerStats(roster, Players)
   player_scores = getPlayerScores(roster, Team, Players)
   total_score = reduce(lambda acc, curr: acc + player_scores[curr], player_scores, 0)
-  return render_template('home.html', username=current_user.username, roster=roster, names=names, player_stats=player_stats, player_scores=player_scores, total_score=total_score)
+  return render_template('home.html', username=current_user.username, roster=roster, names=names, player_stats=player_stats, player_scores=player_scores, total_score=total_score, form=form)
+
+@app.route('/search', methods=['POST'])
+@login_required
+def search():
+  test = SearchForm
+  return render_template('search.html', test=test)
 
 @app.route('/buildroster', methods=['GET', 'POST'])
 @login_required

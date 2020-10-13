@@ -1,0 +1,30 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Search
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='index.css')}}">
+{% endblock %}
+
+{% block nav %}
+{% endblock nav %}
+
+{% block content %}
+<nav>
+  <ul>
+    <li><a href="{{ url_for('league') }}">League</a></li>
+    <li><a href="{{ url_for('home') }}">My Roster</a></li>
+    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+  </ul>
+</nav>
+<div class="container">
+  <div class="template">
+    <h1 id="usernameTitle">{{ test.searchName }}</h1>
+    <table style="width:100%; text-align: center;">
+    </table>
+  </div>
+</div>
+{% endblock %}
