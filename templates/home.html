@@ -29,61 +29,71 @@ Home
         <th>Position</th>
         <th>Name</th>
         <th id="yardage">Yardage <button id="yardagesBtn">-</button></th>
-        <th>Cumulative Score</th>
+        <th>Cumulative Score <button id="scoreBtn">-</button></th>
       </tr>
       <tr id="QBRow">
         <td>QB</td>
         <td>{{ names['QB'] }}</td>
         <td id="QBYards">{{ player_stats['QB'] }}</td>
-        <td>{{ player_scores['QB'] }}</td>
+        <td id="QBPoints">{{ player_scores['QB'] }}</td>
       </tr>
       <tr id="WR1Row">
         <td>WR1</td>
         <td>{{ names['WR1'] }}</td>
         <td id="WR1Yards">{{ player_stats['WR1'] }}</td>
-        <td>{{ player_scores['WR1'] }}</td>
+        <td id="WR1Points">{{ player_scores['WR1'] }}</td>
       </tr>
       <tr id="WR2Row">
         <td>WR2</td>
         <td>{{ names['WR2'] }}</td>
         <td id="WR2Yards">{{ player_stats['WR2'] }}</td>
-        <td>{{ player_scores['WR2'] }}</td>
+        <td id="WR2Points">{{ player_scores['WR2'] }}</td>
       </tr>
       <tr id="RB1Row">
         <td>RB1</td>
         <td>{{ names['RB1'] }}</td>
         <td id="RB1Yards">{{ player_stats['RB1'] }}</td>
-        <td>{{ player_scores['RB1'] }}</td>
+        <td id="RB1Points">{{ player_scores['RB1'] }}</td>
       </tr>
       <tr id="RB2Row">
         <td>RB2</td>
         <td>{{ names['RB2'] }}</td>
         <td id="RB2Yards">{{ player_stats['RB2'] }}</td>
-        <td>{{ player_scores['RB2'] }}</td>
+        <td id="RB2Points">{{ player_scores['RB2'] }}</td>
       </tr>
       <tr id="TERow">
         <td>TE</td>
         <td>{{ names['TE'] }}</td>
         <td id="TEYards">{{ player_stats['TE'] }}</td>
-        <td>{{ player_scores['TE'] }}</td>
+        <td id="TEPoints">{{ player_scores['TE'] }}</td>
       </tr>
     </table>
   </div>
 </div>
 <script>
-  console.log('SCRIPT')
-  let yardsSorted = 0;
+  let yardsSorted = 0
   let yardages = []
-  for (let p of ['QB', 'WR1', 'WR2', 'RB1', 'RB2', 'TE']) {
+
+  let pointsSorted = 0
+  let points = []
+  pointsDisplay = []
+  let pointsButton = document.querySelector('#scoreBtn')
+
+  const positionsConst = ['QB', 'WR1', 'WR2', 'RB1', 'RB2', 'TE']
+  for (let p of positionsConst) {
     yardages.push({
       row: document.querySelector(`#${p}Row`),
       yards: parseInt(document.querySelector(`#${p}Yards`).innerText)
     })
   }
-  // console.log(yardages)
   yardagesDisplay = []
   let yardagesButton = document.querySelector('#yardagesBtn')
   yardagesButton.onclick = e => {
+    if (pointsSorted !== 0) {
+      pointsDisplay = [...points]
+      pointsButton.innerText = '-'
+      pointsSorted = 0
+    }
     switch(yardsSorted) {
       case 0:
         // Sort descending
@@ -91,35 +101,77 @@ Home
         yardsSorted = 1
         yardagesButton.innerText = 'D'
         buildDisplay(yardagesDisplay)
-        break;
+        break
       case 1:
         // Sort ascending
         yardagesDisplay = [...yardages].sort((a, b) => a.yards - b.yards)
         yardsSorted = 2
         yardagesButton.innerText = 'A'
         buildDisplay(yardagesDisplay)
-        break;
+        break
       case 2:
         // Revert to normal
         yardagesDisplay = [...yardages]
         yardsSorted = 0
         yardagesButton.innerText = '-'
-        buildDisplay(yardagesDisplay)
-        break;
+        
+        break
       default:
         yardagesDisplay = [...yardages]
         yardsSorted = 0
         yardagesButton.innerText = '-'
-        break;
+        buildDisplay(yardagesDisplay)
+        break
     }
   };
 
   const buildDisplay = (order) => {
+    console.log(order)
     let rosterTable = document.getElementById('rosterTable')
 
     rosterTable.deleteRow(1)
     for(let o of order) {
       rosterTable.appendChild(o.row)
+    }
+  }
+
+  for (let p of positionsConst) {
+    points.push({
+      row: document.querySelector(`#${p}Row`),
+      points: parseInt(document.querySelector(`#${p}Points`).innerText)
+    })
+  }
+  pointsButton.onclick = e => {
+    if (yardsSorted !== 0) {
+      yardagesDisplay = [...yardages]
+      yardagesButton.innerText = '-'
+      yardsSorted = 0
+    }
+    switch (pointsSorted) {
+      case 0:
+        pointsDisplay = [...points].sort((a, b) => b.points - a.points)
+        pointsSorted = 1
+        pointsButton.innerText = 'D'
+        buildDisplay(pointsDisplay)
+        break
+      case 1:
+        pointsDisplay = [...points].sort((a, b) => a.points - b.points)
+        pointsSorted = 2
+        pointsButton.innerText = 'A'
+        buildDisplay(pointsDisplay)
+        break
+      case 2:
+        pointsDisplay = [...points]
+        pointsSorted = 0
+        pointsButton.innerText = '-'
+        buildDisplay(pointsDisplay)
+        break
+      default:
+       pointsDisplay = [...points]
+        pointsSorted = 0
+        pointsButton.innerText = '-'
+        buildDisplay(pointsDisplay)
+        break
     }
   }
 </script>
