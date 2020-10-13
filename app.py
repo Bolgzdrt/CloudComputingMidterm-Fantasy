@@ -1,8 +1,8 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, flash
 from flask.globals import request
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField
+from wtforms import StringField, PasswordField, BooleanField, SelectField
 from wtforms.validators import InputRequired, Email, Length
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -79,6 +79,13 @@ class RegisterForm(FlaskForm):
   username = StringField('Username', validators=[InputRequired(), Length(min=4, max=15)])
   password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=80)])
 
+class rosterForm(FlaskForm):
+  qb = SelectField("QB", coerce=int)
+  rb1 = SelectField("RB1", coerce=int)
+  rb2 = SelectField("RB2", coerce=int)
+  wr1 = SelectField("WR1", coerce=int)
+  wr2 = SelectField("WR2", coerce=int)
+  te = SelectField("TE", coerce=int)
 
 @app.route('/')
 def index():
@@ -123,12 +130,36 @@ def home():
   total_score = reduce(lambda acc, curr: acc + player_scores[curr], player_scores, 0)
   return render_template('home.html', username=current_user.username, roster=roster, names=names, player_stats=player_stats, player_scores=player_scores, total_score=total_score)
 
-@app.route('/buildroster')
+@app.route('/buildroster', methods=['GET', 'POST'])
 @login_required
 def buildroster():
-  #WIP
+  form = rosterForm()
+
   qbs = Players.query.filter_by(Position='QB')
-  return render_template('buildRoster.html', qbs=qbs)
+  rbs = Players.query.filter_by(Position='RB')
+  wrs = Players.query.filter_by(Position='WR')
+  tes = Players.query.filter_by(Position='TE')
+
+  form.qb.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname)) for player in qbs]
+  form.rb1.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname)) for player in rbs]
+  form.rb2.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname)) for player in rbs]
+  form.wr1.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname)) for player in wrs]
+  form.wr2.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname)) for player in wrs]
+  form.te.choices = [(player.PlayerID, (player.PlayerFname + " " + player.PlayerLname)) for player in tes]
+
+  if form.validate_on_submit():
+    if (form.rb1.data == form.rb2.data) or (form.wr1.data == form.wr2.data):
+      flash('Must select different players for each roster spot')
+    else:
+      roster_id = randrange(1000000, 9999999)
+      new_roster = Roster(RosterID=roster_id, QB=form.qb.data, RB1=form.rb1.data, RB2=form.rb2.data, WR1=form.wr1.data, WR2=form.wr2.data, TE=form.te.data)
+      user = current_user
+      user.RosterID = roster_id
+      db.session.add(new_roster)
+      db.session.commit()
+      return redirect(url_for('home'))
+
+  return render_template('buildRoster.html', form=form)
 
 @app.route('/league')
 @login_required

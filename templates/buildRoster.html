@@ -1,4 +1,5 @@
 {% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
 BuildRoster
@@ -12,17 +13,35 @@ BuildRoster
 {% block content %}
 <div class="container">
   <div class="template">
-    <h1>Build Roster</h1>
-    <div style="display: inline-block;">
+
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <form class="form-signin" method="POST" action="/buildroster">
+      <h2 class="form-signin-heading">Build Roster</h2>
+      {{ form.hidden_tag() }}
+      {{ wtf.form_field(form.qb) }}
+      {{ wtf.form_field(form.rb1) }}
+      {{ wtf.form_field(form.rb2) }}
+      {{ wtf.form_field(form.wr1) }}
+      {{ wtf.form_field(form.wr2) }}
+      {{ wtf.form_field(form.te) }}
+      <button type="submit">Submit</button>
+    </form>
+
+    <!-- <div style="display: inline-block;">
       <label for="qbSelect">QB</label>
       <select name="qbSelect">
         {% for qb in qbs %}
         <option value="{{ qb.PlayerID }}">{{ qb.PlayerFname }} {{ qb.PlayerLname }}</option>
         {% endfor %}
       </select>
-    </div>
+    </div> -->
     <a href="{{ url_for('logout') }}">Log Out</a>
-    <a href="{{ url_for('home') }}">Home Page</a>
   </div>
 </div>
 {% endblock %}
