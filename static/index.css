@@ -109,6 +109,10 @@ nav ul li a {
   margin-top: 1.5rem;
 }
 
+.leagueTable th {
+  font-size: 12px;
+}
+
 .tableContainer p {
   margin: 0.5rem 0;
   font-size: 1.5rem;

@@ -7,7 +7,7 @@ from wtforms.validators import InputRequired, Email, Length
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from utils import getPlayerNames, getRosterPlayers, getPlayerStats, getPlayerScores
+from utils import getPlayerNames, getRosterPlayers, getPlayerStats, getPlayerScores, getUserWeekByWeekScore
 from random import randrange
 from functools import reduce
 
@@ -133,8 +133,14 @@ def buildroster():
 @login_required
 def league():
   rosters = Roster.query.with_entities(Roster.QB, Roster.WR1, Roster.WR2, Roster.RB1, Roster.RB2, Roster.TE, Roster.RosterID)
-  players = getRosterPlayers(Players, User, rosters)
-  return render_template('league.html', roster=players)
+  players = getRosterPlayers(Players, User, Team, rosters)
+  league_weekly_scores = []
+  for r in rosters:
+    weekly_score = getUserWeekByWeekScore(r, Players, Team, User)
+    league_weekly_scores.append(weekly_score)
+
+  league_weekly_scores.sort(key=lambda e: e['total'], reverse=True)
+  return render_template('league.html', scores=league_weekly_scores)
 
 @app.route('/logout')
 @login_required

@@ -22,30 +22,37 @@ Home
 </nav>
 <div class="container">
   <div class="template">
-    {% for r in roster %}
-      <div class="tableContainer">
-        <h1 class="leagueTitle">{{ r.owner }}'s Roster</h1>
-        <p>Score: {{ r.points }}</p>
-        <table class="leagueTable">
-          <tr>
-            <th>QB</th>
-            <th>WR</th>
-            <th>WR</th>
-            <th>RB</th>
-            <th>RB</th>
-            <th>TE</th>
-          </tr>
-          <tr>
-            <td>{{ r.names['QB'] }}</td>
-            <td>{{ r.names['WR1'] }}</td>
-            <td>{{ r.names['WR2'] }}</td>
-            <td>{{ r.names['RB1'] }}</td>
-            <td>{{ r.names['RB2'] }}</td>
-            <td>{{ r.names['TE'] }}</td>
-          </tr>
-        </table>
-      </div>
-    {% endfor %}
+    <table class="leagueTable">
+      <tr>
+        <th></th>
+        <th>WK1</th>
+        <th>WK2</th>
+        <th>WK3</th>
+        <th>WK4</th>
+        <th>WK5</th>
+        <th>WK6</th>
+        <th>WK7</th>
+        <th>WK8</th>
+        <th>WK9</th>
+        <th>WK10</th>
+        <th>WK11</th>
+        <th>WK12</th>
+        <th>WK13</th>
+        <th>WK14</th>
+        <th>WK15</th>
+        <th>WK16</th>
+        <th>Total</th>
+      </tr>
+      {% for w in scores %}
+        <tr>
+          <td>{{ w.owner }}</td>
+          {% for s in w['weekly_score'] %}
+          <td>{{ s }}</td>
+          {% endfor %}
+          <td>{{w.total}}</td>
+        </tr>
+        {% endfor %}
+    </table>
   </div>
 </div>
 {% endblock %}
