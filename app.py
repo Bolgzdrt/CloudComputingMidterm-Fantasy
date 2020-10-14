@@ -88,7 +88,7 @@ class rosterForm(FlaskForm):
   te = SelectField("TE", coerce=int)
   
 class searchForm(FlaskForm):
-  searchName = StringField('Find Player...', validators=[InputRequired(), Length(max=80)])
+  searchName = StringField('Find Player...', validators=[InputRequired(), Length(max=80)], render_kw={"placeholder": "Enter full name or lastname of player"})
 
 @app.route('/')
 def index():
