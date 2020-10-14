@@ -1,7 +1,6 @@
 from functools import reduce
 
 positionsConst = ['QB', 'WR1', 'WR2', 'RB1', 'RB2', 'TE']
-gameConst = ['Game1', 'Game2', 'Game3', 'Game4', 'Game5', 'Game6', 'Game7', 'Game8', 'Game9', 'Game10', 'Game11', 'Game12', 'Game13', 'Game14', 'Game15', 'Game16']
 
 def getPlayerName(Players, player_id):
   name = Players.query.filter_by(PlayerID=player_id).first()
@@ -123,3 +122,15 @@ def __getUserWeekByWeekScoreHelper(week, team):
     17: team.Game17
   }
   return options[week]
+
+def getSearchInfo(teamid, Team):
+  score = 0
+  for week in range(1, 18):
+    team = Team.query.filter_by(TeamID=teamid).first()
+    score += __getUserWeekByWeekScoreHelper(week, team)
+
+  return {
+    'score': score,
+    'prob': (score/16)*100,
+    'team': team.TeamName
+  }

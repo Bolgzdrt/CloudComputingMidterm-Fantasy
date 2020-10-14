@@ -11,6 +11,10 @@
   margin-top: 40px;
 }
 
+.template label {
+  font-size: large;
+}
+
 .template div {
   text-align: left;
   font-size: 24px;
@@ -117,3 +121,25 @@ nav ul li a {
   margin: 0.5rem 0;
   font-size: 1.5rem;
 }
+
+/* button{
+  display:inline-block;
+  padding:0.35em 1.2em;
+  border:0.1em solid black;
+  margin:1em 0.3em 0.3em 0;
+  border-radius:0.20em;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-weight:300;
+  color:black;
+  text-align:center;
+  transition: all 0.2s;
+  font-size: large;
+  width: 100%;
+  background-color: white;
+}
+
+button:hover{
+  color:#000000;
+  background-color: rgb(184, 197, 255);
+} */

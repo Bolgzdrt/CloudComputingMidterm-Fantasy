@@ -1,4 +1,5 @@
 {% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
 Home
@@ -8,9 +9,6 @@ Home
 {{super()}}
 <link rel="stylesheet" href="{{url_for('.static', filename='index.css')}}">
 {% endblock %}
-
-{% block nav %}
-{% endblock nav %}
 
 {% block content %}
 <nav>
@@ -70,6 +68,16 @@ Home
     </table>
   </div>
 </div>
+<div class="container">
+  <div class="template">
+    <form class="form-search" method="POST">
+      {{ form.hidden_tag() }}
+      {{ wtf.form_field(form.searchName) }}
+      <button type="submit">Search</button>
+    </form>
+  </div>
+</div>
+
 <script>
   let yardsSorted = 0
   let yardages = []

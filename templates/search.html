@@ -1,0 +1,51 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Search
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='index.css')}}">
+{% endblock %}
+
+{% block content %}
+<nav>
+  <ul>
+    <li><a href="{{ url_for('league') }}">League</a></li>
+    <li><a href="{{ url_for('home') }}">My Roster</a></li>
+    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+  </ul>
+</nav>
+<div class="container">
+  <div class="template">
+    <h1 id="usernameTitle">{{ data.PlayerFname }} {{ data.PlayerLname }}</h1>
+    <table style="width:100%; text-align: center;">
+      <tr>
+        <th>Team</th>
+        <th>Position</th>
+        <th>Yardage</th>
+        <th>Total Score</th>
+        <th>Win Probability</th>
+      </tr>
+      <tr>
+        <td>{{ scoreStats['team'] }}</td>
+        <td>{{ data.Position }}</td>
+        <td>{{ data.TotalYardage }}</td>
+        <td>{{ scoreStats['score'] }}</td>
+        <td>{{ scoreStats['prob'] }}%</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="container">
+  <div class="template">
+    <form class="form-search" method="POST">
+      {{ form.hidden_tag() }}
+      {{ wtf.form_field(form.searchName) }}
+      <button type="submit">Search</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
