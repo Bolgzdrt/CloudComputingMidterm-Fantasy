@@ -126,25 +126,32 @@ def signup():
 @app.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-  form = searchForm()
-  if form.validate_on_submit():
-    searchString = form.searchName.data
-    searchList = searchString.split()
-    if len(searchList) > 1:
-      fname = searchList[0]
-      lname = searchList[1]
-      data = Players.query.filter_by(PlayerLname=lname).filter_by(PlayerFname=fname).first()
-    else:
-      data = Players.query.filter_by(PlayerLname=searchList[0]).first()
-    scoreStats = getSearchInfo(data.TeamID, Team)
-    return render_template('search.html', data=data, scoreStats=scoreStats, form=form)
-
   roster = Roster.query.filter_by(RosterID=current_user.RosterID).first()
   names = getPlayerNames(Players, roster)
   player_stats = getPlayerStats(roster, Players)
   player_scores = getPlayerScores(roster, Team, Players)
   total_score = reduce(lambda acc, curr: acc + player_scores[curr], player_scores, 0)
-  return render_template('home.html', username=current_user.username, roster=roster, names=names, player_stats=player_stats, player_scores=player_scores, total_score=total_score, form=form)
+  
+  form = searchForm()
+  if form.validate_on_submit():
+    searchString = form.searchName.data
+    searchList = searchString.split()
+    if len(searchList) > 1:
+      string1 = searchList[0]
+      string2 = searchList[1]
+      fname = string1.capitalize()
+      lname = string2.capitalize()
+      data = Players.query.filter_by(PlayerLname=lname).filter_by(PlayerFname=fname).first()
+    else:
+      string1 = searchList[0]
+      lname = string1.capitalize()
+      data = Players.query.filter_by(PlayerLname=lname).first()
+    if data is None:
+      return render_template('home.html', username=current_user.username, roster=roster, names=names, player_stats=player_stats, player_scores=player_scores, total_score=total_score, form=form, errormsg="Player does not exist")
+    scoreStats = getSearchInfo(data.TeamID, Team)
+    return render_template('search.html', data=data, scoreStats=scoreStats, form=form, errormsg="")
+
+  return render_template('home.html', username=current_user.username, roster=roster, names=names, player_stats=player_stats, player_scores=player_scores, total_score=total_score, form=form, errormsg="")
 
 @app.route('/buildroster', methods=['GET', 'POST'])
 @login_required

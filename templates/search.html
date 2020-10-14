@@ -45,6 +45,7 @@ Search
       {{ form.hidden_tag() }}
       {{ wtf.form_field(form.searchName) }}
       <button type="submit">Search</button>
+      <div class="searchError">{{ errormsg }}</div>
     </form>
   </div>
 </div>

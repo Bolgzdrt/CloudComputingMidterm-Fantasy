@@ -147,3 +147,9 @@ button:hover{
   color:#000000;
   background-color: rgb(184, 197, 255);
 } */
+.searchError {
+  color: red;
+  font-size: large !important;
+  text-align: center !important;
+  margin-top: 10px;
+}
