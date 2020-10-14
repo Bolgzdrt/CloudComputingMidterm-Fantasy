@@ -7,7 +7,7 @@ from wtforms.validators import InputRequired, Email, Length
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from utils import getPlayerNames, getRosterPlayers, getPlayerStats, getPlayerScores, getUserWeekByWeekScore
+from utils import getPlayerNames, getRosterPlayers, getPlayerStats, getPlayerScores, getUserWeekByWeekScore, getSearchInfo
 from random import randrange
 from functools import reduce
 
@@ -87,7 +87,7 @@ class rosterForm(FlaskForm):
   wr2 = SelectField("WR2", coerce=int)
   te = SelectField("TE", coerce=int)
   
-class SearchForm(FlaskForm):
+class searchForm(FlaskForm):
   searchName = StringField('Find Player...', validators=[InputRequired(), Length(max=80)])
 
 @app.route('/')
@@ -126,7 +126,18 @@ def signup():
 @app.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-  form = SearchForm()
+  form = searchForm()
+  if form.validate_on_submit():
+    searchString = form.searchName.data
+    searchList = searchString.split()
+    if len(searchList) > 1:
+      fname = searchList[0]
+      lname = searchList[1]
+      data = Players.query.filter_by(PlayerLname=lname).filter_by(PlayerFname=fname).first()
+    else:
+      data = Players.query.filter_by(PlayerLname=searchList[0]).first()
+    scoreStats = getSearchInfo(data.TeamID, Team)
+    return render_template('search.html', data=data, scoreStats=scoreStats, form=form)
 
   roster = Roster.query.filter_by(RosterID=current_user.RosterID).first()
   names = getPlayerNames(Players, roster)
@@ -134,12 +145,6 @@ def home():
   player_scores = getPlayerScores(roster, Team, Players)
   total_score = reduce(lambda acc, curr: acc + player_scores[curr], player_scores, 0)
   return render_template('home.html', username=current_user.username, roster=roster, names=names, player_stats=player_stats, player_scores=player_scores, total_score=total_score, form=form)
-
-@app.route('/search', methods=['POST'])
-@login_required
-def search():
-  test = SearchForm
-  return render_template('search.html', test=test)
 
 @app.route('/buildroster', methods=['GET', 'POST'])
 @login_required

@@ -70,7 +70,7 @@ Home
 </div>
 <div class="container">
   <div class="template">
-    <form class="form-search" method="POST" action="/search">
+    <form class="form-search" method="POST">
       {{ form.hidden_tag() }}
       {{ wtf.form_field(form.searchName) }}
       <button type="submit">Search</button>
