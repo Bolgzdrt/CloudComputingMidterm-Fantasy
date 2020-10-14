@@ -11,6 +11,10 @@
   margin-top: 40px;
 }
 
+.welcome {
+  max-width: 60%;
+}
+
 .template label {
   font-size: large;
 }
