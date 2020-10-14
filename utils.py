@@ -81,7 +81,6 @@ def getPlayerScores(roster, Team, Players):
     team = Team.query.filter_by(TeamID=tid).first()
     for w in range(1, 18):
       scores[pos] += __getUserWeekByWeekScoreHelper(w, team)
-    # scores[pos] = Team.query.filter_by(TeamID=tid).first().Game1 + Team.query.filter_by(TeamID=tid).first().Game2 + Team.query.filter_by(TeamID=tid).first().Game3 + Team.query.filter_by(TeamID=tid).first().Game4 +  Team.query.filter_by(TeamID=tid).first().Game5 +  Team.query.filter_by(TeamID=tid).first().Game6 +  Team.query.filter_by(TeamID=tid).first().Game7 +  Team.query.filter_by(TeamID=tid).first().Game8 +  Team.query.filter_by(TeamID=tid).first().Game9 +  Team.query.filter_by(TeamID=tid).first().Game10 + Team.query.filter_by(TeamID=tid).first().Game11 + Team.query.filter_by(TeamID=tid).first().Game12 + Team.query.filter_by(TeamID=tid).first().Game13 + Team.query.filter_by(TeamID=tid).first().Game14 + Team.query.filter_by(TeamID=tid).first().Game15 + Team.query.filter_by(TeamID=tid).first().Game16
 
   return scores
 
@@ -125,12 +124,13 @@ def __getUserWeekByWeekScoreHelper(week, team):
 
 def getSearchInfo(teamid, Team):
   score = 0
+  team = { 'TeamName': '' }
   for week in range(1, 18):
     team = Team.query.filter_by(TeamID=teamid).first()
     score += __getUserWeekByWeekScoreHelper(week, team)
 
   return {
     'score': score,
-    'prob': (score/16)*100,
+    'prob': (score/16) * 100,
     'team': team.TeamName
   }
