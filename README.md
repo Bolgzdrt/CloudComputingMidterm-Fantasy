@@ -4,7 +4,7 @@
 
 http://cloudfantasyfb.eastus.cloudapp.azure.com:5000/
 
-## Instructions
+## Features
 
 * Sign up for an account
 * Build your roster
