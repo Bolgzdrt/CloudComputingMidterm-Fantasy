@@ -2,7 +2,7 @@
 
 ## Website URL
 
-http://cloudfantasyfb.eastus.cloudapp.azure.com:5000/
+http://cloudfantasyfb.eastus.cloudapp.azure.com:5000/ (No longer active)
 
 ## Features
 
